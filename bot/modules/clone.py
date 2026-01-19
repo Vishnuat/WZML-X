@@ -48,14 +48,10 @@ class Clone(TaskListener):
         self,
         client,
         message,
-        _=None,
-        __=None,
-        ___=None,
-        ____=None,
-        _____=None,
         bulk=None,
         multi_tag=None,
         options="",
+        **kwargs,
     ):
         if bulk is None:
             bulk = []
@@ -225,8 +221,6 @@ class Clone(TaskListener):
                     "--config",
                     config_path,
                     f"{remote}:{src_path}",
-                    "-v",
-                    "--log-systemd",
                 ]
                 res = await cmd_exec(cmd)
                 if res[2] != 0:
@@ -280,8 +274,6 @@ class Clone(TaskListener):
                 "--config",
                 config_path,
                 destination,
-                "-v",
-                "--log-systemd",
             ]
             cmd2 = [
                 BinConfig.RCLONE_NAME,
@@ -292,8 +284,6 @@ class Clone(TaskListener):
                 "--config",
                 config_path,
                 destination,
-                "-v",
-                "--log-systemd",
             ]
             cmd3 = [
                 BinConfig.RCLONE_NAME,
@@ -303,8 +293,6 @@ class Clone(TaskListener):
                 "--config",
                 config_path,
                 destination,
-                "-v",
-                "--log-systemd",
             ]
             res1, res2, res3 = await gather(
                 cmd_exec(cmd1),

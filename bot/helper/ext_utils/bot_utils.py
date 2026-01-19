@@ -196,6 +196,9 @@ def arg_parser(items, arg_base):
                 sub_list = []
                 for j in range(i + 1, total):
                     if items[j] in arg_base:
+                        if part == "-c" and items[j] == "-c":
+                            sub_list.append(items[j])
+                            continue
                         if part in bool_arg_set and not sub_list:
                             arg_base[part] = True
                             break
@@ -296,3 +299,10 @@ def loop_thread(func):
         return future.result() if wait else future
 
     return wrapper
+
+
+def safe_int(value, default=0):
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return default
