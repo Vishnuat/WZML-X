@@ -11,7 +11,7 @@ from ... import LOGGER, shortener_dict
 from ...core.config_manager import Config
 
 # --- VERCEL CONFIG ---
-VERCEL_DOMAIN = "https://my-token-system.vercel.app"
+VERCEL_DOMAIN = "https://token-system-dcbots.vercel.app"
 # ---------------------
 
 async def short_url(longurl, attempt=0):
