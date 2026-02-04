@@ -24,18 +24,17 @@ async def short_url(longurl, attempt=0):
     disable_warnings()
     
     try:
-        # STEP 1: വെർസെൽ വെരിഫിക്കേഷൻ ലെയർ
+        
         unique_uid = None
         hint = None
         
-        # Wzv3-ൽ സാധാരണ ടോക്കൺ format: start=TOKEN
-        # നാം വെർസെല്ലിലേക്ക് ഇത് അയക്കുന്നു
+        
         if VERCEL_DOMAIN and "start=" in longurl:
             try:
-                # ലിങ്കിൽ നിന്ന് ടോക്കൺ മാത്രം എടുക്കുന്നു
+                
                 original_token = longurl.split("start=")[-1]
-                # User ID നിലവിൽ അറിയില്ലെങ്കിൽ 'wzv3_user' എന്ന് നൽകാം
-                user_id = "wzv3_user" 
+                
+                user_id = "dcbots_user" 
 
                 v_res = requests.get(
                     f"{VERCEL_DOMAIN}/api/verify/create",
@@ -45,13 +44,13 @@ async def short_url(longurl, attempt=0):
                 
                 unique_uid = v_res.get('unique_uid')
                 hint = v_res.get('connection_hint')
-                # ഇപ്പോൾ നാം ഷോർട്ട് ചെയ്യാൻ പോകുന്നത് വെർസെൽ ലിങ്കാണ്
+               
                 longurl = v_res.get('verify_link')
 
             except Exception as ve:
                 LOGGER.error(f"Vercel Registration Error: {ve}")
 
-        # --- നിങ്ങളുടെ ഒറിജിനൽ ഷോർട്ടനർ ലോജിക് (മാറ്റമില്ലാതെ) ---
+        
         if Config.PROTECTED_API:
             res = cget("GET", Config.PROTECTED_API, params={"url": longurl}).json()
             if res.get("status") == "success":
