@@ -36,7 +36,7 @@ async def short_url(longurl, attempt=0):
                     f"{VERCEL_DOMAIN}/api/verify/create",
                     params={
                         "uid": user_id, 
-                        "token": longurl  # മുഴുവൻ ടെലിഗ്രാം ലിങ്കും ഇവിടെ പാസ്സ് ചെയ്യുന്നു
+                        "token": longurl  
                     },
                     timeout=10
                 ).json()
@@ -44,7 +44,7 @@ async def short_url(longurl, attempt=0):
                 unique_uid = v_res.get('unique_uid')
                 hint = v_res.get('connection_hint')
                 
-                # വെർസെൽ നൽകുന്ന വെരിഫൈ ലിങ്ക് ലോങ്ങ് യുആർഎൽ ആയി മാറ്റുന്നു
+                
                 longurl = v_res.get('verify_link')
 
             except Exception as ve:
@@ -94,7 +94,6 @@ async def short_url(longurl, attempt=0):
                 f"http://cutt.ly/api/api.php?key={_shortener_api}&short={longurl}",
             ).json().get("url", {}).get("shortLink")
         else:
-            # General API Shorteners (Adsterra, Monetag, etc.)
             res = cget(
                 "GET",
                 f"https://{_shortener}/api?api={_shortener_api}&url={quote(longurl)}",
@@ -112,9 +111,7 @@ async def short_url(longurl, attempt=0):
                 shorted_url = res.get("shortenedUrl")
         
         if not shorted_url:
-            shorted_url = longurl
-
-        # STEP 2: ജിപി ലിങ്കിനെ വെർസെൽ സ്റ്റാർട്ട് ലിങ്ക് ആക്കി മാറ്റുന്നു
+            shorted_url = longurl 
         if VERCEL_DOMAIN and unique_uid and hint:
             try:
                 final_res = requests.get(
