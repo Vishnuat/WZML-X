@@ -30,8 +30,6 @@ async def short_url(longurl, attempt=0):
         # --- VERCEL REGISTRATION STEP ---
         if VERCEL_DOMAIN and "start=" in longurl:
             try:
-                # ഇവിടെ original_token വേർതിരിക്കുന്നതിന് പകരം 
-                # longurl (മുഴുവൻ ലിങ്ക്) നേരിട്ട് വെർസെല്ലിലേക്ക് അയക്കുന്നു.
                 user_id = "dcbots_user" 
 
                 v_res = requests.get(
